@@ -11,16 +11,16 @@ namespace Core.Handlers.Commands
 {
     public class CreateBrandHandler : ICommandHandler<CreateBrand>
     {
-        private readonly IBrandRepository _brandRepository;
+        private readonly IBrandsRepository _brandsRepository;
 
-        public CreateBrandHandler(IBrandRepository brandRepository)
+        public CreateBrandHandler(IBrandsRepository brandsRepository)
         {
-            _brandRepository = brandRepository;
+            _brandsRepository = brandsRepository;
         }
 
         public Task Handle(CreateBrand command)
         {
-            _brandRepository.AddBrand(new Brand
+            _brandsRepository.AddBrand(new Brand
             {
                 Name = command.Name
             });

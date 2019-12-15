@@ -1,11 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
+using Core.Commands;
+using Core.Dispatchers;
+using Core.Handlers.Commands;
+using Core.Handlers.Queries;
+using Core.Models;
+using Core.Queries;
+using Core.Repositories;
+using Infrastructure;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +38,23 @@ namespace LearnCqs
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDbContext<BikeShopDbContext>(opt =>
+                opt.UseSqlServer(Configuration.GetConnectionString("Default")));
+            services.AddScoped<DbSeeder>();
+            services.AddAutoMapper(options => options.AddProfile<MappingProfile>(), AppDomain.CurrentDomain.GetAssemblies());
+
+            //CQS
+            services.AddScoped<IDispatcher, Dispatcher>();
+            services.AddScoped<IQueryDispatcher, QueryDispatcher>();
+            services.AddScoped<ICommandDispatcher, CommandDispatcher>();
+            //CQS queries
+            services.AddScoped<IQueryHandler<GetBikes, List<Bike>>, GetBikesHandler>();
+            //CQS commands
+            services.AddScoped<ICommandHandler<CreateBrand>, CreateBrandHandler>();
+
+            services.AddScoped<IBikesRepository, BikesRepository>();
+            services.AddScoped<IBrandsRepository, BrandsRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

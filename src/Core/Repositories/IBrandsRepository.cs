@@ -7,7 +7,7 @@ using Core.Models;
 
 namespace Core.Repositories
 {
-    public interface IBrandRepository
+    public interface IBrandsRepository
     {
         void AddBrand(Brand brand);
     }
