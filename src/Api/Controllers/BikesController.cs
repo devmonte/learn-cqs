@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Core.Models;
+using Core.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Commands;
-using Core.Dispatchers;
-using Core.Models;
-using Core.Queries;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace LearnCqs.Controllers
 {
@@ -16,24 +13,24 @@ namespace LearnCqs.Controllers
     public class BikesController : ControllerBase
     {
         private readonly ILogger<BikesController> _logger;
-        private readonly IDispatcher _dispatcher;
+        private readonly IBikesRepository _bikesRepository;
 
-        public BikesController(ILogger<BikesController> logger, IDispatcher dispatcher)
+        public BikesController(ILogger<BikesController> logger, IBikesRepository bikesRepository)
         {
             _logger = logger;
-            _dispatcher = dispatcher;
+            _bikesRepository = bikesRepository;
         }
 
         [HttpGet]
         public async Task<IEnumerable<Bike>> Get()
         {
-            return await _dispatcher.Query(new GetBikes());
+            return _bikesRepository.GetBikes().ToList();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBrand(CreateBike command)
+        public async Task<IActionResult> CreateBrand(Bike bike)
         {
-            await _dispatcher.Send(command);
+            _bikesRepository.AddBike(bike);
             return Ok();
         }
     }

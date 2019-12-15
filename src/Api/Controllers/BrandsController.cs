@@ -1,13 +1,10 @@
-﻿using System;
+﻿using Core.Models;
+using Core.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.Commands;
-using Core.Dispatchers;
-using Core.Models;
-using Core.Queries;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace LearnCqs.Controllers
 {
@@ -16,23 +13,23 @@ namespace LearnCqs.Controllers
     public class BrandsController : ControllerBase
     {
         private readonly ILogger<BrandsController> _logger;
-        private readonly IDispatcher _dispatcher;
+        private readonly IBrandsRepository _brandsRepository;
 
-        public BrandsController(ILogger<BrandsController> logger, IDispatcher dispatcher)
+        public BrandsController(ILogger<BrandsController> logger, IBrandsRepository brandsRepository)
         {
             _logger = logger;
-            _dispatcher = dispatcher;
+            _brandsRepository = brandsRepository;
         }
 
         public async Task<List<Brand>> GetBrands()
         {
-            return await _dispatcher.Query(new GetBrands());
+            return _brandsRepository.GetBrands().ToList();
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBrand(CreateBrand command)
+        public async Task<IActionResult> CreateBrand(Brand brand)
         {
-            await _dispatcher.Send(command);
+            _brandsRepository.AddBrand(brand);
             return Ok();
         }
     }

@@ -12,7 +12,9 @@ namespace Core.Models
         public MappingProfile()
         {
             CreateMap<Entities.Bike, Bike>();
+            CreateMap<Bike, Entities.Bike>();
             CreateMap<Entities.Brand, Brand>();
+            CreateMap<Brand, Entities.Brand>();
         }
     }
 }
