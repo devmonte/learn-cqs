@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Commands;
 using Core.Dispatchers;
 using Core.Models;
 using Core.Queries;
@@ -27,6 +28,13 @@ namespace LearnCqs.Controllers
         public async Task<IEnumerable<Bike>> Get()
         {
             return await _dispatcher.Query(new GetBikes());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBrand(CreateBike command)
+        {
+            await _dispatcher.Send(command);
+            return Ok();
         }
     }
 }

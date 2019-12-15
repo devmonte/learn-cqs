@@ -24,6 +24,11 @@ namespace LearnCqs.Controllers
             _dispatcher = dispatcher;
         }
 
+        public async Task<List<Brand>> GetBrands()
+        {
+            return await _dispatcher.Query(new GetBrands());
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateBrand(CreateBrand command)
         {

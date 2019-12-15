@@ -50,9 +50,11 @@ namespace LearnCqs
             services.AddScoped<ICommandDispatcher, CommandDispatcher>();
             //CQS queries
             services.AddScoped<IQueryHandler<GetBikes, List<Bike>>, GetBikesHandler>();
+            services.AddScoped<IQueryHandler<GetBrands, List<Brand>>, GetBrandsHandler>();
             //CQS commands
             services.AddScoped<ICommandHandler<CreateBrand>, CreateBrandHandler>();
-
+            services.AddScoped<ICommandHandler<CreateBike>, CreateBikeHandler>();
+            //Repositories
             services.AddScoped<IBikesRepository, BikesRepository>();
             services.AddScoped<IBrandsRepository, BrandsRepository>();
         }

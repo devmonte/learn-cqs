@@ -10,5 +10,6 @@ namespace Core.Repositories
     public interface IBrandsRepository
     {
         void AddBrand(Brand brand);
+        IList<Brand> GetBrands();
     }
 }

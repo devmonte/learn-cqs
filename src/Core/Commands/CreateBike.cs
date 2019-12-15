@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Models
+namespace Core.Commands
 {
-    public class Bike
+    public class CreateBike : ICommand
     {
         public string Name { get; set; }
         public Guid BrandId { get; set; }

@@ -27,7 +27,9 @@ namespace Infrastructure.Repositories
 
         public void AddBike(Bike bike)
         {
-            throw new NotImplementedException();
+            var bikeToAdd = _mapper.Map<Core.Entities.Bike>(bike);
+            _dbContext.Bikes.Add(bikeToAdd);
+            _dbContext.SaveChanges();
         }
     }
 }
