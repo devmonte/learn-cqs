@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Core.Commands;
-using Core.Dispatchers;
+﻿using Core.Commands;
 using Core.Models;
 using Core.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace LearnCqs.Controllers
 {
@@ -16,24 +14,24 @@ namespace LearnCqs.Controllers
     public class BrandsController : ControllerBase
     {
         private readonly ILogger<BrandsController> _logger;
-        private readonly IDispatcher _dispatcher;
+        private readonly IMediator _mediator;
 
-        public BrandsController(ILogger<BrandsController> logger, IDispatcher dispatcher)
+        public BrandsController(ILogger<BrandsController> logger, IMediator mediator)
         {
             _logger = logger;
-            _dispatcher = dispatcher;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<List<Brand>> GetBrands()
         {
-            return await _dispatcher.Query(new GetBrands());
+            return await _mediator.Send(new GetBrands());
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateBrand(CreateBrand command)
         {
-            await _dispatcher.Send(command);
+            await _mediator.Send(command);
             return Ok();
         }
     }

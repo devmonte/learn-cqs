@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.Commands;
 using Core.Models;
 using Core.Repositories;
+using MediatR;
 
 namespace Core.Handlers.Commands
 {
-    public class CreateBikeHandler : ICommandHandler<CreateBike>
+    public class CreateBikeHandler : IRequestHandler<CreateBike>
     {
         private readonly IBikesRepository _bikesRepository;
 
@@ -25,6 +27,16 @@ namespace Core.Handlers.Commands
                 BrandId = command.BrandId
             });
             return Task.CompletedTask;
+        }
+
+        public Task<Unit> Handle(CreateBike request, CancellationToken cancellationToken)
+        {
+            _bikesRepository.AddBike(new Bike
+            {
+                Name = request.Name,
+                BrandId = request.BrandId
+            });
+            return Task.FromResult(new Unit());
         }
     }
 }

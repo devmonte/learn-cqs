@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MediatR;
 
 namespace Core.Commands
 {
-    public class CreateBrand : ICommand
+    public class CreateBrand : IRequest
     {
         public string Name { get; set; }
         public DateTime FoundationYear { get; set; }

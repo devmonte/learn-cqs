@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Core.Models;
 using Core.Queries;
 using Core.Repositories;
+using MediatR;
 
 namespace Core.Handlers.Queries
 {
-    public class GetBikesHandler : IQueryHandler<GetBikes, List<Bike>>
+    public class GetBikesHandler : IRequestHandler<GetBikes, List<Bike>>
     {
         private readonly IBikesRepository _bikesRepository;
 
@@ -19,6 +21,12 @@ namespace Core.Handlers.Queries
         }
 
         public Task<List<Bike>> Handle(GetBikes query)
+        {
+            var bikes = _bikesRepository.GetBikes().ToList();
+            return Task.FromResult(bikes);
+        }
+
+        public Task<List<Bike>> Handle(GetBikes request, CancellationToken cancellationToken)
         {
             var bikes = _bikesRepository.GetBikes().ToList();
             return Task.FromResult(bikes);
