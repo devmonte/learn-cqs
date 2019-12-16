@@ -24,6 +24,7 @@ namespace LearnCqs.Controllers
             _dispatcher = dispatcher;
         }
 
+        [HttpGet]
         public async Task<List<Brand>> GetBrands()
         {
             return await _dispatcher.Query(new GetBrands());

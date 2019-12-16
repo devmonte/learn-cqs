@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Core.Queries
 {
-    public interface IQuery<out TResult>
+    public interface IQuery<TResult>
     {
         
     }
